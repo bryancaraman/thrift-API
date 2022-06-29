@@ -102,5 +102,3 @@ ENV/
 
 # Custom Stuff
 .postgressdb/data
-
-.devcontainer

@@ -10,7 +10,7 @@ from playhouse.postgres_ext import (
     AutoField,
     CharField,
     DoubleField,
-    BooleanField
+    BooleanField,
 )
 
 database = os.environ.get("POSTGRES_DB", "bootcamp")

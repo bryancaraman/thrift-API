@@ -6,7 +6,6 @@ CARTITEM_PATH = "/v1/cartitems/{item_id}"
 
 
 class Exercise3(TestClient):
-
     def test_get_items(self):
         response = self.simulate_get(CARTITEMS_PATH)
         self.assertEqual(response.status_code, 200)
@@ -19,9 +18,7 @@ class Exercise3(TestClient):
         self.assertEqual(response.status_code, 201, "Requires working POST")
         self.aitem = response.json
 
-        response = self.simulate_get(
-            CARTITEM_PATH.format(item_id=self.aitem["id"])
-        )
+        response = self.simulate_get(CARTITEM_PATH.format(item_id=self.aitem["id"]))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json["name"], self.aitem["name"])
 
@@ -49,9 +46,7 @@ class Exercise3(TestClient):
         self.assertEqual(response.status_code, 201, "Requires working POST")
         self.aitem = response.json
 
-        response = self.simulate_delete(
-            CARTITEM_PATH.format(item_id=self.aitem["id"])
-        )
+        response = self.simulate_delete(CARTITEM_PATH.format(item_id=self.aitem["id"]))
         self.assertEqual(response.status_code, 204)
         self.assertEqual(response.text, "")
 
@@ -69,8 +64,6 @@ class Exercise3(TestClient):
         self.assertEqual(response.text, "")
 
         # Verify change
-        response = self.simulate_get(
-            CARTITEM_PATH.format(item_id=self.aitem["id"])
-        )
+        response = self.simulate_get(CARTITEM_PATH.format(item_id=self.aitem["id"]))
         self.assertEqual(response.status_code, 200, "Requires working GET")
         self.assertEqual(response.json["quantity"], 5)
