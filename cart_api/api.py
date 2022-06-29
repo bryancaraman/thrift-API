@@ -1,4 +1,4 @@
-__author__ = 'Andrew Williamson <axwilliamson@godaddy.com>'
+__author__ = "Andrew Williamson <axwilliamson@godaddy.com>"
 
 import falcon
 from swagger_ui import falcon_api_doc
@@ -14,17 +14,13 @@ product = Product()
 products = Products()
 
 # Define our API's routes
-api.add_route('/heartbeat', hb)
-api.add_route('/v1/products/{product_id:int}', product)
-api.add_route('/v1/products', Products())
+api.add_route("/heartbeat", hb)
+api.add_route("/v1/products/{product_id:int}", product)
+api.add_route("/v1/products", Products())
 
 # Add a route which serves our OpenAPI specification
 falcon_api_doc(
-    api,
-    config_path='/swagger/api.json',
-    url_prefix='/',
-    title='Cart API',
-    editor=True
+    api, config_path="/swagger/api.json", url_prefix="/", title="Cart API", editor=True
 )
 
 
@@ -34,7 +30,7 @@ def http405(req, resp, error, params):
     resp.status = falcon.HTTP_405
     resp.media = {
         "code": "405_METHOD_NOT_ALLOWED",
-        "message": "Cannot perform " + req.method + " on " + req.url
+        "message": "Cannot perform " + req.method + " on " + req.url,
     }
 
 

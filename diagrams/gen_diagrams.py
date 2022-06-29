@@ -7,7 +7,11 @@ from diagrams.onprem.database import PostgreSQL
 from diagrams.programming.framework import React
 from diagrams.programming.language import Python
 
-with Diagram("Docker-Compose Resources", filename="/diagrams/docker_compose_resources", direction="LR"):
+with Diagram(
+    "Docker-Compose Resources",
+    filename="/diagrams/docker_compose_resources",
+    direction="LR",
+):
     user = User("API User")
 
     with Cluster("docker host resources"):
