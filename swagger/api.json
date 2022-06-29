@@ -1,70 +1,52 @@
 {
     "openapi": "3.0.0",
-    "servers":
-    [
+    "servers": [
         {
             "description": "Local",
             "url": "http://0.0.0.0:8000/v1"
         }
     ],
-    "info":
-    {
+    "info": {
         "version": "1.0.0",
         "title": "Swagger Cart API",
-        "license":
-        {
+        "license": {
             "name": "Apache 2.0",
             "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         }
     },
-    "tags":
-    [
+    "tags": [
         {
             "name": "Store Products"
         }
     ],
-    "externalDocs":
-    {
+    "externalDocs": {
         "description": "Find out more about Swagger",
         "url": "http://swagger.io"
     },
-    "paths":
-    {
-        "/products":
-        {
-            "post":
-            {
-                "tags":
-                [
+    "paths": {
+        "/products": {
+            "post": {
+                "tags": [
                     "product"
                 ],
                 "summary": "Create a new Product",
                 "description": "Create a new Product",
-                "requestBody":
-                {
+                "requestBody": {
                     "description": "New Product data",
-                    "content":
-                    {
-                        "application/json":
-                        {
-                            "schema":
-                            {
+                    "content": {
+                        "application/json": {
+                            "schema": {
                                 "$ref": "#/components/schemas/Product"
                             }
                         }
                     }
                 },
-                "responses":
-                {
-                    "201":
-                    {
+                "responses": {
+                    "201": {
                         "description": "successful create",
-                        "content":
-                        {
-                            "application/json":
-                            {
-                                "schema":
-                                {
+                        "content": {
+                            "application/json": {
+                                "schema": {
                                     "$ref": "#/components/schemas/Product"
                                 }
                             }
@@ -72,166 +54,123 @@
                     }
                 }
             },
-            "get":
-            {
-                "tags":
-                [
+            "get": {
+                "tags": [
                     "product"
                 ],
                 "summary": "Return the list of products in the database",
                 "description": "Return the list of products in the database",
-                "operationId": "getProducts",
-                "responses":
-                {
-                    "200":
-                    {
+                "responses": {
+                    "200": {
                         "description": "successful operation",
-                        "content":
-                        {
-                            "application/json":
-                            {
-                                "schema":
-                                {
+                        "content": {
+                            "application/json": {
+                                "schema": {
                                     "type": "array",
-                                    "items":
-                                    {
+                                    "items": {
                                         "$ref": "#/components/schemas/Product"
                                     }
                                 }
                             }
                         }
                     },
-                    "500":
-                    {
+                    "500": {
                         "description": "Internal Server Error"
                     }
                 }
             }
         },
-        "/products/{id}":
-        {
-            "parameters":
-            [
+        "/products/{id}": {
+            "parameters": [
                 {
                     "name": "id",
                     "in": "path",
                     "description": "ID of the product",
                     "required": true,
-                    "schema":
-                    {
+                    "schema": {
                         "type": "integer",
                         "format": "int64"
                     }
                 }
             ],
-            "get":
-            {
-                "tags":
-                [
+            "get": {
+                "tags": [
                     "product"
                 ],
                 "summary": "Return a single product from the database",
                 "description": "Return a single product from the database",
-                "operationId": "getProduct",
-                "responses":
-                {
-                    "200":
-                    {
+                "responses": {
+                    "200": {
                         "description": "successful operation",
-                        "content":
-                        {
-                            "application/json":
-                            {
-                                "schema":
-                                {
+                        "content": {
+                            "application/json": {
+                                "schema": {
                                     "$ref": "#/components/schemas/Product"
                                 }
                             }
                         }
                     },
-                    "400":
-                    {
+                    "400": {
                         "description": "Invalid ID supplied"
                     },
-                    "404":
-                    {
+                    "404": {
                         "description": "Product not found"
                     },
-                    "500":
-                    {
+                    "500": {
                         "description": "Internal Server Error"
                     }
                 }
             },
-            "delete":
-            {
-                "tags":
-                [
+            "delete": {
+                "tags": [
                     "product"
                 ],
                 "summary": "Delete a single product from the database",
                 "description": "Delete a single product from the database",
-                "operationId": "deleteProduct",
-                "responses":
-                {
-                    "204":
-                    {
+                "responses": {
+                    "204": {
                         "description": "Deleted successfully"
                     },
-                    "400":
-                    {
+                    "400": {
                         "description": "Invalid ID supplied"
                     },
-                    "404":
-                    {
+                    "404": {
                         "description": "Product not found"
                     },
-                    "500":
-                    {
+                    "500": {
                         "description": "Internal Server Error"
                     }
                 }
             }
         }
     },
-    "components":
-    {
-        "schemas":
-        {
-            "Product":
-            {
+    "components": {
+        "schemas": {
+            "Product": {
                 "type": "object",
-                "properties":
-                {
-                    "id":
-                    {
+                "properties": {
+                    "id": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "name":
-                    {
+                    "name": {
                         "type": "string"
                     },
-                    "description":
-                    {
+                    "description": {
                         "type": "string"
                     },
-                    "image_url":
-                    {
+                    "image_url": {
                         "type": "string"
                     },
-                    "price":
-                    {
+                    "price": {
                         "type": "number",
                         "format": "double"
                     },
-                    "is_on_sale":
-                    {
+                    "is_on_sale": {
                         "type": "boolean",
                         "default": false
                     },
-                    "sale_price":
-                    {
+                    "sale_price": {
                         "type": "number",
                         "format": "double"
                     }
