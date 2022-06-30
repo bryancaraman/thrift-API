@@ -15,7 +15,7 @@
 
 > Procedural
 
-1. Please join the slack channel #bootcamp_group_project_2021 # Update this
+1. Please join the slack channel #bootcamp_group_project_2022
 2. During presentation please use slack for any questions
 3. If you need immediate help use the raise hand reaction in Zoom
 4. You may use any resource - google, stack overflow, each other, but we reccomend you start with the documentation
@@ -33,50 +33,62 @@
 
 Create a fork of the project  
 ```
-https://github.secureserver.net/thoag/2021Bootcamp-API
+https://github.com/thoag-godaddy/BootCampCart-API
 ```
 
 Verify that the repository is available in the list of your repositories. You should see something like below:
 ```
-<username>/2021Bootcamp-API
-forked from thoag/2021Bootcamp-API
+<username>-godaddy/BootCampCart-API
+thoag-godaddy/BootCampCart-API
 ```
 
 Clone the project from your fork 
 ```
 git clone <this repo>
-cd 2021Bootcamp-API
+cd BootCampCart-API
 code . #this opens up the visual studio code with the project as your working directory
 ```
 
 Setup the IDE environment:
 
-We want to make sure that we have all the plugin externsions needed to run the project. Navigate to `Extensions` tab on the left and make sure we have  `Docker` and `Python` installed. If not, install them from the marketplace. 
+(If we end up using development containers)
 
-Once they are installed, we want to select the right interpreter for Python (Remember you installed Python using `brew` (double check this) from your last Training.) Navigate to settings (or use CMD+SHIFT+P) and search for `Python: Select Interpreter`. Fron the list of interpreters, use the one installed using brew (Do we want to have this? We are essentially running the project in container). Now you are ready to run the project.
+As soon as VSCode opens up, you would get a pop up on the right corner of the screen to set up the project using Remote container. 
+
+
+We want to make sure that we have all the plugin externsions needed to run the project. Navigate to `Extensions` tab on the left and make sure we have `Docker` installed. If not, install them from the marketplace. 
 
 Run the project
 ```
-make start
+docker-compose up --build --force-recreate -d api
 ```
 
 Let's make sure the API works:
 - Navigate to ``localhost:8000`/heartbeat` in a web browser
 - You should see 'Hello World! You did it!'
-- You can also run `docker ps` on your terminal in VS code. You should see the following  images running... 
+- You can also run `docker ps` on a new terminal in VS code. You should see the following  images running... 
 (You can either get out of the running process using `CMD+X` or just open up a new terminal and then run the above command/)
 ```
 2021bootcamp-api_api
 postgres:12.0-alpine 
 ```
 
+We can stop the running containers using the below command:
+```
+docker-compose down
+```
+
 Now lets try out a few other commands
 ```
-make test
-make logs
+docker-compose up --build --exit-code-from tests --abort-on-container-exit tests # To run the tests
+docker-compose logs -f
 ```
-`make test` will show a bunch of tests failing. That's ok, by the time you are done all tests should be passing.
-`make logs` will show a constant stream of the API's server logs. Try going to localhost:8000/heartbeat again and refresh the page a few times. Every refresh should show a new entry in the log. Next let's verify that the database is functioning:
+
+The command to run tests will show a bunch of tests failing. That's ok, by the time you are done all tests should be passing.
+The command for logs will show a constant stream of the API's server logs. Try going to localhost:8000/heartbeat again and refresh the page a few times. Every refresh should show a new entry in the log. 
+
+Next let's verify that the database is functioning:
+- Spin up the project again using the compose up command `docker-compose up --build --force-recreate -d api`
 - Navigate to `http://localhost:8000/v1/products/1`
 
 You should see `{"id": 1, "name": "Standard SSL", "description": "Your standard SSL certificate", "image_url": null, "price": 14.99, "is_on_sale": false, "sale_price": 8.99}`. The data for this product was read out of a PostgreSQL database running separately from the API.
@@ -92,7 +104,7 @@ All we need to do is add specifications about the API in a yaml or json file (ba
 
 You should have created an API specification during your API training and tools session. If you do not have one a trainer can provide one for you.
 
-- Replace the 2021Bootcamp-API/swagger/api.json with your API specification
+- Replace the BootCampCart-API/swagger/api.json with your API specification
 - Navigate to your API root: `http://localhost:8000/`
 - You should see interactive documentation for your UI
 - If you have errors, try switching to the [swagger editor](https://editor.swagger.io/) for debugging.
@@ -126,7 +138,6 @@ There are four main components to the project setup:
 1. Dockerfile
 2. docker-compose.yml
 3. requirements.txt
-4. Makefile
 
 The necessary packages required to build a Falcon API are:
 
@@ -149,23 +160,20 @@ You can then use commands in makefile to run your project. The following ones wo
 
 > To run the api, postgres, and the tests in the background, use the following command
 >```python
->make start
+>docker-compose up --build --force-recreate -d api
 >```
 
 > Kill the container using the following make command
 > ```python
-> make stop
+> docker-compose down
 >```
 
 > Check on the container using the following make command
 >```python
-> make status
+> docker-compose ps
 > ```
 
-For a complete list of make commands, run
-```python
-make help
-```
+For a complete list of make commands, refer to the file (Add the file here with list of compose commands)
 
 Its time to dive into the code!
 
@@ -272,7 +280,7 @@ If you compare your API spec you may notice while we have a Product model, there
 
 The model should match your API specification. Make sure the fields and their data types are consistent with your swagger. If you are unsure what fields to use or how to proceed try checking the PeeWee documentation on Models and Fields: http://docs.peewee-orm.com/en/latest/peewee/models.html
 
-If successful you should be able to run `make test` and see that `Exercise1::test_import_model` is now passing
+If successful you should be able to run the docker compose command for test (refer to the list of docker compose command) and see that `Exercise1::test_import_model` is now passing
 
 ### HTTP Methods
 
@@ -344,7 +352,6 @@ And BOOM! We have covered everything it takes to create an HTTP API that serves 
 
 Once running, go to `localhost:8000/v1/products/{id}` in your browser and substitute `id` with an actual id
 from the database.
-(_Hint: Remember in `database.py` we had pre-populated that cart item table. Use an id from those values._)
 
 After hitting enter, you should see a JSON response with the entire row.
 
@@ -363,7 +370,7 @@ _(Hint: The falcon request object should contain media data with all the require
 - https://falcon.readthedocs.io/en/stable/api/request_and_response_wsgi.html
 - https://docs.peewee-orm.com/en/latest/peewee/querying.html
 
-Once complete, run `make test` and you should see the Exercise2 tests have now PASSED
+Once complete, run docker compose command for test and you should see the Exercise2 tests have now PASSED
 
 ### Break Time
 ![Freedom](https://media.giphy.com/media/QsyVRYGgsO7yc2HU5O/giphy.gif)
@@ -379,33 +386,8 @@ We can get a sense of what the POST method would need to create a new row in Dat
 
 _(The field id is an autogenerated one so we do not have to worry about it. It is just used as a primary key for the table)_
 
-The resulting code snippet should look something like this
-
-```python
-class CartItems:
-    def on_post(self, req, resp):
-        data = req.media
-        item = DatabaseCartItem(
-            name=data['name'],
-            quantity=data['quantity'],
-            price=data['price']
-        )
-        item.save()
-        resp.media = model_to_dict(item)
-        resp.status = falcon.HTTP_201
-```
-
-Are we forgetting something? Yes we are.... Lets make sure we import `DatabaseCartItem` by adding the below import statement
-
-```python
-from cart_api.database import DatabaseCartItem
-```
-
-And lets tie it to the routing by adding the below snippet to `api.py`
-
-```python
-api.add_route('/v1/cartitems', CartItems())
-```
+Let't try it out. 
+(Hint: Do not forget to import `DatabaseCartItem` for the on_post request. Make sure to tie it to routing.)
 
 Now we should be able to use swagger to use the new resource to add rows to the `DatabaseCartItem` table. Navigate to `localhost:8080` and use the `Post` method in CartItems to add a new row for CartItems (Drop the `id` from json since it is auto generated). Re-run `make test` to see if there any changes to the test results. 
 
@@ -484,9 +466,7 @@ Since the resources `CartItem` and `CartItems` have the same underlying table, w
 Each of the function is doing the API call with the right combination of your API URI (i.e. localhost:8000) and the route for that resource (e.g. /v1/cartitems).
 The API response and the response code is then used against `assert` statements to check if the value is valid or expected. The full list of assert statements can be found here: https://docs.python.org/3/library/unittest.html
 
-Let's run the above test cases using the following commands and see what happens.
-
-`make test`
+Let's run the above test cases using the docker compose command for test and see what happens.
 
 From the output, it is evident that the test cases are being executed and we are seeing incomplete coverage. This is due to the fact that we don't have test cases to cover each method for each resource.
 
