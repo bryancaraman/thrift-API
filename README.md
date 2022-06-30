@@ -71,10 +71,11 @@ docker compose up --build --force-recreate -d api
 ```
 Once that completes run `docker compose ps`.  You should see the following images running and if you keep doing the ps command you will see the state change from starting to healthy.
 ```
-bootcampcart-api-api
-bootcampcart-api-db
+NAME                     COMMAND                  SERVICE             STATUS              PORTS
+bootcampcart-api-api-1   "/bin/sh -c 'gunicor…"   api                 running (healthy)   0.0.0.0:8000->8000/tcp
+bootcampcart-api-db-1    "docker-entrypoint.s…"   db                  running             0.0.0.0:5432->5432/tcp
 ```
-Now let's look at the logs from our docker containers. We are going to use -f which means follow the logs so that we see them in real time. This will continue until you exit the process with CMD+X. While viewing the logs try going to `http://0.0.0.0:8000` again and refresh the page a few times. you should see a log event for each refresh.
+Now let's look at the logs from our docker containers. We are going to use -f which means follow the logs so that we see them in real time. This will continue until you exit the process with CMD+X. While viewing the logs try going to `http://0.0.0.0:8000/heartbeat` again and refresh the page a few times. you should see a log event for each refresh.
 ```
 docker compose logs -f
 ```
