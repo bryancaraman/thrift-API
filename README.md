@@ -157,13 +157,11 @@ Its time to dive into the code!
 
 ## Resources
 
-We want to build an API capable of exposing Cart information. Falcon uses the concept of resources borrowed from REST
-architectural style.
+We want to build an API capable of exposing Cart information. Falcon uses the concept of resources borrowed from REST architectural style.
 
 > In a nutshell, resources are all things on the API which can be accessed via a URL.
 
-So, if we want to use the API to fetch us product information or cart items, or even add, update or delete any product,
-we can use the Resources.
+So, if we want to use the API to fetch us product information or cart items, or even add, update or delete any product, we can use the Resources.
 
 These resource names are defined as python classes and act as controllers which handle the response to a request for that resource.
 
@@ -191,8 +189,7 @@ The project uses a local Postgres SQL database to store data tables. Python has 
 
 ORMs make it much easier to interact with a database, no SQL query language needed ! They are tied to concepts of object oriented programming. The Model is a special type of class which defines the schema of a database table and instances of that class are the rows or specific records of data.
 
-PeeWee makes it really simple to define data models and data tables. Let's start dissecting the `database.py` file. There
-are three main components to it:
+PeeWee makes it really simple to define data models and data tables. Let's start dissecting the `database.py` file. There are three main components to it:
 
 ```python
 database = os.environ.get("POSTGRES_DB", "bootcamp")
@@ -214,9 +211,7 @@ class BaseModel(Model):
                                       autorollback=True)
 ```
 
-First we establish a method of connecting to the database. In the above code snippet, we start with extracting the database credentials stored as environment variables (They are passed from the docker compose file). Once we have the values, we create a postgres extension object using the
-credentials (they would be used later for binding). We also define our base data model containing our database object in
-the Meta class. These base models are then extended into table models.
+First we establish a method of connecting to the database. In the above code snippet, we start with extracting the database credentials stored as environment variables (They are passed from the docker compose file). Once we have the values, we create a postgres extension object using the credentials (they would be used later for binding). We also define our base data model containing our database object in the Meta class. These base models are then extended into table models.
 
 ```python
 class DatabaseProducts(BaseModel):
@@ -243,9 +238,7 @@ class DatabaseProducts(BaseModel):
         DatabaseProducts.bulk_create(products)
 ```
 
-Second, we create our first model (an extention of the base model) which corresponds to the database Product
-table. Each column for the table has a corresponding SQL storage class (such as varchar, int, etc.)
-We also utilise the `prepopulate` function in peewee to add rows to our database table.
+Second, we create our first model (an extention of the base model) which corresponds to the database Product table. Each column for the table has a corresponding SQL storage class (such as varchar, int, etc.) We also utilise the `prepopulate` function in peewee to add rows to our database table.
 
 > There is a special field here for representing the primary key. See http://docs.peewee-orm.com/en/latest/peewee/models.html#primary-keys-composite-keys-and-other-tricks for more info.
 
@@ -263,11 +256,9 @@ If successful you should be able to run the docker compose command for test (ref
 
 Okay, now that we have a functioning database, lets talk about those functions in the Resource class.
 
-The functions listed in the resource class are HTTP methods often referred to as "responders". Each API request is
-mapped to these methods following the `on_*()` convention, where * is any one of the standard HTTP methods lowercased.
+The functions listed in the resource class are HTTP methods often referred to as "responders". Each API request is mapped to these methods following the `on_*()` convention, where * is any one of the standard HTTP methods lowercased.
 
-Each responder takes (at least) two params, one representing the HTTP request, and one representing the HTTP response to
-that request. By convention, these are called req and resp, respectively. The responder may also accept a parameter for any variables which are present in the route.
+Each responder takes (at least) two params, one representing the HTTP request, and one representing the HTTP response to that request. By convention, these are called req and resp, respectively. The responder may also accept a parameter for any variables which are present in the route.
 
 ```python
 class Product:
@@ -281,13 +272,11 @@ class Product:
         resp.status = falcon.HTTP_204
 ```
 
-In the above snippet, we have defined two HTTP operations. The first one is a controller for a `GET` request which would
-try to fetch the Product information based on the `product_id` (passed in from the request URL) and then send it off as part of the response.
+In the above snippet, we have defined two HTTP operations. The first one is a controller for a `GET` request which would try to fetch the Product information based on the `product_id` (passed in from the request URL) and then send it off as part of the response.
 
 The second one is a `DELETE` request which would delete the item.
 
-The query operations such as `.get` or `.delete_by_id` are directly done on the tables created in the database.py file
-and importing those tables classes in this file. For example,
+The query operations such as `.get` or `.delete_by_id` are directly done on the tables created in the database.py file and importing those tables classes in this file. For example,
 
 ```python
 from cart_api.database import Products as DatabaseProducts
@@ -295,8 +284,7 @@ from cart_api.database import Products as DatabaseProducts
 
 the above snippet imports the Database class `Products` and does operations on the related resource.
 
-Also, Notice the HTTP response codes set in each of these controllers. These help to identify whether a API request was
-successful or not.
+Also, Notice the HTTP response codes set in each of these controllers. These help to identify whether a API request was successful or not.
 
 > For a complete list of falcon response codes, visit https://falcon.readthedocs.io/en/stable/api/status.html
 >
@@ -327,8 +315,7 @@ And BOOM! We have covered everything it takes to create an HTTP API that serves 
 
 (The API uses gunicorn, a server in the background for running).
 
-Once running, go to `localhost:8000/v1/products/{id}` in your browser and substitute `id` with an actual id
-from the database.
+Once running, go to `localhost:8000/v1/products/{id}` in your browser and substitute `id` with an actual id from the database.
 
 After hitting enter, you should see a JSON response with the entire row.
 
@@ -397,19 +384,15 @@ Now that all tests are passing you should see a code coverage report for the uni
 
 # Bonus: Adding Tests for the API
 
-Adding test cases is paramount to any software application. It validates the Software application and ensures that it is
-functional and reliable.
+Adding test cases is paramount to any software application. It validates the Software application and ensures that it is functional and reliable.
 
 ![Testing is important](https://media.giphy.com/media/l0MYAY18Pxyxwu2xa/giphy.gif)
 
-Testing our API will ensure that it is doing what it is supposed to do and help us catch any bugs early on during the
-development process. We can use the API response object and status codes to create test cases for the resources.
+Testing our API will ensure that it is doing what it is supposed to do and help us catch any bugs early on during the development process. We can use the API response object and status codes to create test cases for the resources.
 
-For the purpose of this project, we would be using Python's unittest library to write test cases and generate a coverage
-report!
+For the purpose of this project, we would be using Python's unittest library to write test cases and generate a coverage report!
 
-Take a look at the test_cartitems.py file in the cart_api_tests folder. It lays down some tests for the `CartItem`
-and the `CartItems` resources. Let's understand what is happening there.
+Take a look at the test_cartitems.py file in the cart_api_tests folder. It lays down some tests for the `CartItem` and the `CartItems` resources. Let's understand what is happening there.
 
 ```python
 CARTITEMS_PATH = "/v1/cartitems"
@@ -437,11 +420,9 @@ class Exercise3(TestClient):
         self.assertEqual(response.json["name"], self.aitem["name"])
 ```
 
-In the Exercise3 class, each function represents contains test cases to test a singular HTTP method for the resources. Ideally, you would want to have at least one test function per HTTP method per resource.
-Since the resources `CartItem` and `CartItems` have the same underlying table, we have combined them into one test class.
+In the Exercise3 class, each function represents contains test cases to test a singular HTTP method for the resources. Ideally, you would want to have at least one test function per HTTP method per resource. Since the resources `CartItem` and `CartItems` have the same underlying table, we have combined them into one test class.
 
-Each of the function is doing the API call with the right combination of your API URI (i.e. localhost:8000) and the route for that resource (e.g. /v1/cartitems).
-The API response and the response code is then used against `assert` statements to check if the value is valid or expected. The full list of assert statements can be found here: https://docs.python.org/3/library/unittest.html
+Each of the function is doing the API call with the right combination of your API URI (i.e. localhost:8000) and the route for that resource (e.g. /v1/cartitems). The API response and the response code is then used against `assert` statements to check if the value is valid or expected. The full list of assert statements can be found here: https://docs.python.org/3/library/unittest.html
 
 Let's run the above test cases using the docker compose command for test and see what happens.
 
