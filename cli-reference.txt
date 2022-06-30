@@ -1,0 +1,32 @@
+# Here is a reference sheet for various Command-Line-Interface commands you will be running during this project
+# the hash (#) indicates a comment, lines without it are valid commands
+# Pressing CMD+X will terminate whatever is running in your terminal, some things wont stop running unless you terminate them
+# You must be in the project folder for these commands to work
+
+# These commands run all the containers for the api
+# the -d version means daemonize which says to run it in the background and give you your CLI prompt back
+docker compose up --build --force-recreate api
+docker compose up --build --force-recreate -d api
+
+# The ps command shows you the current containers that compose is running.
+# It also provides extra info like their health. Very useful for debugging
+docker compose ps
+
+# When your app is running in the background you will often want to check its logs
+# The -f switch is useful for debugging - it will follow the logs in real time
+docker compose logs -f
+
+# Use the down command to shut the whole application down. Useful for restarting everything
+docker compose down
+
+# This runs all the unit tests for the application.
+docker compose up --build --exit-code-from tests --abort-on-container-exit tests
+
+# DANGERZONE: If your database gets really messed up you might need to destroy it
+# The app will create a new one, but you will lose any custom products or shopping carts not defined in code
+# This command shows you your docker data volumes
+docker volume ls
+# Stop the app, destroy its data, restart it and it will recreate the database for you
+docker compose down
+docker volume rm bootcampcart-api_postgresdb
+docker compose up --build --force-recreate api
