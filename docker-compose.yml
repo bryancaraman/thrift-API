@@ -13,6 +13,11 @@ services:
       - 5432:5432
     volumes:
       - postgresdb:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     environment:
       POSTGRES_USER: bootcamp
       POSTGRES_PASSWORD: bootcamp
@@ -48,7 +53,8 @@ services:
     networks:
       - bootcamp
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   tests:
     restart: always
@@ -68,6 +74,7 @@ services:
     command: >  # another way of defining commands
       bash -c "coverage run --source cart_api -m pytest -rA /cart_api && coverage report -m"
     depends_on:
-      - api  # The tests need the API running in order to work
+      api:
+        condition: service_healthy
     networks:
       - bootcamp
