@@ -1,5 +1,7 @@
 import time
 from .test_heartbeat import TestClient
+from playhouse.postgres_ext import IntegerField
+
 
 PRODUCTS_PATH = "/v1/products"
 PRODUCT_PATH = "/v1/products/{id}"
@@ -15,7 +17,7 @@ class Exercise1(TestClient):
 
     def test_example_data_matches_model(self):
         from cart_api.database import DatabaseCartItem
-
+        isinstance(DatabaseCartItem.quantity,IntegerField)
         DatabaseCartItem(**EXAMPLE_CART_ITEM)
 
 
