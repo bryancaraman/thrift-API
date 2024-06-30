@@ -16,7 +16,7 @@ products = Products()
 # Define our API's routes
 api.add_route("/heartbeat", hb)
 api.add_route("/v1/products/{product_id:int}", product)
-api.add_route("/v1/products", Products())
+api.add_route("/v1/products", products)
 
 # Add a route which serves our OpenAPI specification
 falcon_api_doc(

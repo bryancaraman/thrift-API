@@ -15,8 +15,8 @@
 
 > Procedural
 
-1. Please join the slack channel #bootcamp_group_project_2022
-2. During presentation please use slack for any questions
+1. Please use the bootcamp slack channel to collaborate
+2. During presentation please use slack for questions
 3. If you need immediate help use the raise hand reaction in Zoom
 4. You may use any resource - google, stack overflow, each other, but we reccomend you start with the documentation
 
@@ -36,27 +36,26 @@ Create a fork of the project
 https://github.com/thoag-godaddy/BootCampCart-API
 ```
 
-Verify that the repository is available in the list of your repositories. You should see something like below:
+Verify that the repository is available your list of your repositories. You should see something like below:
 ```
 <username>-godaddy/BootCampCart-API
-thoag-godaddy/BootCampCart-API
+forked from thoag-godaddy/BootCampCart-API
 ```
 
 Clone the project from your fork
 ```
-git clone <this repo>
+git clone <your fork>
 cd BootCampCart-API
 code . #this opens up the visual studio code with the project as your working directory
+# Switch back to your terminal and run this to pre-build our container in the background:
+docker compose build api
 ```
 
 Setup the IDE environment:
 
-As soon as VSCode opens up, you would get a pop up on the right corner of the screen to set up the project using Remote container. If you don't you may need to install `Remote - Containers` from the extensions on the left side bar.
+As soon as VSCode opens up, you would get a pop up on the right corner of the screen to set up the project using Remote container. If you don't you may need to install `Remote - Containers` from the extensions on the left side bar. This sets up the python environment for VSCode to use, but for all your docker commands you will want to use your original terminal.
 
-
-We want to make sure that we have all the plugin externsions needed to run the project. Navigate to `Extensions` tab on the left and make sure we have `Docker` installed. If not, install them from the marketplace.
-
-Run the project for the first time. Lets observe everything docker compose is doing
+Run the project for the first time. Make sure Docker is running then lets observe everything docker compose is doing
 ```
 docker compose up --build --force-recreate api
 ```
@@ -106,7 +105,7 @@ All we need to do is add specifications about the API in a yaml or json file (ba
 
 ### Add your API specification to the project
 
-You should have created an API specification during your API training and tools session. If you do not have one a trainer can provide one for you.
+You should have created an API specification during your API training and tools session. If you have not completed that [use this one for now](https://github.com/thoag-godaddy/BootCampCart-API/blob/complete_spec/swagger/api.json)
 
 - Replace the BootCampCart-API/swagger/api.json with your API specification
 - Navigate to your API root: `http://localhost:8000/`
@@ -148,7 +147,7 @@ In requirements.txt the necessary packages required to build the Falcon API are:
 2. Gunicorn (for the app server)
 3. Psycopg2 (for adding a local Postgres SQL database for the API)
 4. Requests (for HTTP requests)
-5. Swagger (for building a swagger ui for the API)
+5. Swagger (for server a swagger/OpenAPI ui for the API)
 6. PyTest (for writing unit test cases for the API)
 7. Coverage (for checking code coverage of the tests for the API)
 

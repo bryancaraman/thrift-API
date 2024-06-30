@@ -1,10 +1,10 @@
-version: '3.8'
-
 networks:
   bootcamp:
 
+
 volumes:
   postgresdb:
+
 
 services:
   db:
@@ -19,6 +19,7 @@ services:
       timeout: 5s
       retries: 5
     environment:
+      PGUSER: bootcamp
       POSTGRES_USER: bootcamp
       POSTGRES_PASSWORD: bootcamp
       POSTGRES_DB: bootcamp
@@ -46,7 +47,13 @@ services:
       POSTGRES_HOST: db
       API_CLEAR_DB: ${API_CLEAR_DB}
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:${API_PORT-8000}/heartbeat"]
+      test:
+        [
+          "CMD",
+          "curl",
+          "-f",
+          "http://localhost:${API_PORT-8000}/heartbeat"
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -69,9 +76,8 @@ services:
       POSTGRES_PASSWORD: bootcamp
       POSTGRES_DB: bootcamp
       POSTGRES_HOST: db
-      API_PORT: "${API_PORT-8000}"
       API_HOST: api
-    command: >  # another way of defining commands
+    command: > # another way of defining commands
       bash -c "coverage run --source cart_api -m pytest -rA /cart_api && coverage report -m"
     depends_on:
       api:
