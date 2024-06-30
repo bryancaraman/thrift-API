@@ -37,8 +37,9 @@ class Exercise2(TestClient):
         self.assertIsInstance(response.json, dict)
         new_product_id = response.json["id"]
         self.assertIsInstance(new_product_id, int)
-        del response.json["id"]
-        self.assertEqual(body, response.json)
+        response_minus_id = response.json
+        del response_minus_id["id"]
+        self.assertEqual(body, response_minus_id)
 
         del_response = self.simulate_delete(PRODUCT_PATH.format(id=new_product_id))
         self.assertEqual(del_response.status_code, 204)
@@ -46,7 +47,6 @@ class Exercise2(TestClient):
     def test_get_all_products(self):
         response = self.simulate_get(PRODUCTS_PATH)
         self.assertEqual(response.status_code, 200)
-        response.json = response.json
 
         self.assertIsNotNone(response.json)
         self.assertIsInstance(response.json, list)
