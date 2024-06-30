@@ -250,7 +250,16 @@ If you compare your API spec you may notice while we have a Product model, there
 
 The model should match your API specification. Make sure the fields and their data types are consistent with your swagger. If you are unsure what fields to use or how to proceed try checking the PeeWee documentation on Models and Fields: http://docs.peewee-orm.com/en/latest/peewee/models.html
 
-If successful you should be able to run the docker compose command for test (refer to the list of docker compose command) and see that `Exercise1::test_import_model` is now passing
+If successful you should be able to run the docker compose command for test (refer to the list of docker compose command) and see that `Exercise1::test_import_model` is now passing. This is a great checkpoint, we should use git to make a commit!
+
+```
+git status
+git add cart_api/database.py
+git commit -m 'exercise one complete'
+```
+
+We encourage you to make frequent commits throughout this project - after exercises or anytime you have made a change worth keeping.
+
 
 ## HTTP Methods
 
@@ -279,7 +288,7 @@ The second one is a `DELETE` request which would delete the item.
 The query operations such as `.get` or `.delete_by_id` are directly done on the tables created in the database.py file and importing those tables classes in this file. For example,
 
 ```python
-from cart_api.database import Products as DatabaseProducts
+from cart_api.database import DatabaseProducts
 ```
 
 the above snippet imports the Database class `Products` and does operations on the related resource.
