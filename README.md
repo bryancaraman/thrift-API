@@ -15,8 +15,8 @@
 
 > Procedural
 
-1. Please join the slack channel #bootcamp_group_project_2022
-2. During presentation please use slack for any questions
+1. Please use the bootcamp slack channel to collaborate
+2. During presentation please use slack for coding questions and include your code when relevant
 3. If you need immediate help use the raise hand reaction in Zoom
 4. You may use any resource - google, stack overflow, each other, but we reccomend you start with the documentation
 
@@ -36,27 +36,26 @@ Create a fork of the project
 https://github.com/thoag-godaddy/BootCampCart-API
 ```
 
-Verify that the repository is available in the list of your repositories. You should see something like below:
+Verify that the repository is available in your list of your repositories. You should see something like below:
 ```
-<username>-godaddy/BootCampCart-API
-thoag-godaddy/BootCampCart-API
+<your username>/BootCampCart-API
+forked from thoag-godaddy/BootCampCart-API
 ```
 
 Clone the project from your fork
 ```
-git clone <this repo>
+git clone <your fork>
 cd BootCampCart-API
 code . #this opens up the visual studio code with the project as your working directory
+# Switch back to your terminal and run this to pre-build our container in the background:
+docker compose build api
 ```
 
 Setup the IDE environment:
 
-As soon as VSCode opens up, you would get a pop up on the right corner of the screen to set up the project using Remote container. If you don't you may need to install `Remote - Containers` from the extensions on the left side bar.
+As soon as VSCode opens up, you would get a pop up on the right corner of the screen to set up the project using Remote container. If you don't you may need to install `Remote - Containers` from the extensions on the left side bar. This sets up the python environment for VSCode to use, but for all your docker commands you will want to use your original terminal.
 
-
-We want to make sure that we have all the plugin externsions needed to run the project. Navigate to `Extensions` tab on the left and make sure we have `Docker` installed. If not, install them from the marketplace.
-
-Run the project for the first time. Lets observe everything docker compose is doing
+Make sure Docker is running then run the project for the first time. Lets observe everything docker compose is doing
 ```
 docker compose up --build --force-recreate api
 ```
@@ -106,7 +105,7 @@ All we need to do is add specifications about the API in a yaml or json file (ba
 
 ### Add your API specification to the project
 
-You should have created an API specification during your API training and tools session. If you do not have one a trainer can provide one for you.
+You should have created an API specification during your API training and tools session. If you have not completed that [use this one for now](https://github.com/thoag-godaddy/BootCampCart-API/blob/complete_spec/swagger/api.json)
 
 - Replace the BootCampCart-API/swagger/api.json with your API specification
 - Navigate to your API root: `http://localhost:8000/`
@@ -148,7 +147,7 @@ In requirements.txt the necessary packages required to build the Falcon API are:
 2. Gunicorn (for the app server)
 3. Psycopg2 (for adding a local Postgres SQL database for the API)
 4. Requests (for HTTP requests)
-5. Swagger (for building a swagger ui for the API)
+5. Swagger (for serving a swagger/OpenAPI ui for the API)
 6. PyTest (for writing unit test cases for the API)
 7. Coverage (for checking code coverage of the tests for the API)
 
@@ -251,7 +250,16 @@ If you compare your API spec you may notice while we have a Product model, there
 
 The model should match your API specification. Make sure the fields and their data types are consistent with your swagger. If you are unsure what fields to use or how to proceed try checking the PeeWee documentation on Models and Fields: http://docs.peewee-orm.com/en/latest/peewee/models.html
 
-If successful you should be able to run the docker compose command for test (refer to the list of docker compose command) and see that `Exercise1::test_import_model` is now passing
+If successful you should be able to run the docker compose command for test (refer to the list of docker compose command) and see that `Exercise1::test_import_model` is now passing. This is a great checkpoint, we should use git to make a commit!
+
+```
+git status
+git add cart_api/database.py
+git commit -m 'exercise one complete'
+```
+
+We encourage you to make frequent commits throughout this project - after exercises or anytime you have made a change worth keeping.
+
 
 ## HTTP Methods
 
@@ -280,7 +288,7 @@ The second one is a `DELETE` request which would delete the item.
 The query operations such as `.get` or `.delete_by_id` are directly done on the tables created in the database.py file and importing those tables classes in this file. For example,
 
 ```python
-from cart_api.database import Products as DatabaseProducts
+from cart_api.database import DatabaseProducts
 ```
 
 the above snippet imports the Database class `Products` and does operations on the related resource.
@@ -333,7 +341,7 @@ _(Hint: The falcon request object should contain media data with all the require
 - https://falcon.readthedocs.io/en/stable/api/status.html
 - https://docs.peewee-orm.com/en/latest/peewee/querying.html
 
-hint:  the test will want the appropriate response code to be returned from the POST
+hints:  The test will want the appropriate response code to be returned from the POST. You can use debug print statements the output will show up in the test
 
 Once complete, run docker compose command for test and you should see the Exercise2 tests have now PASSED
 
@@ -354,22 +362,21 @@ _(The field id is an autogenerated one so we do not have to worry about it. It i
 Let't try it out.
 (Hint: Do not forget to import `DatabaseCartItem` for the on_post request. Make sure to tie it to routing.)
 
-Now we should be able to use swagger to use the new resource to add rows to the `DatabaseCartItem` table. Navigate to `localhost:8080` and use the `Post` method in CartItems to add a new row for CartItems (Drop the `id` from json since it is auto generated).
-
 
 > **Exercise 3**: Build the Cart Item resources similar to Product. You should have two resources called `CartItem` and `CartItems` using the `DatabaseCartItem` database Model. (We did one above). The resources should support the following operations.
 >
+> CartItems:
+> 1. Add a new Cart Item row (very similar to adding a product)
+> 2. List out all the Cart Item rows
 >
 > CartItem:
 > 1. Fetch a Cart Item row based on the given item_id
 > 2. Delete a Cart Item row based on the given item_id
 > 3. Update a Cart Item row based on the given item_id
 >
-> CartItems:
-> 1. Add a new Cart Item row (We already did this above)
-> 2. List out all the Cart Item rows
->
 > Hints: Do not forget to add routes for the new resources to the Falcon API class. Several tests require POST to be correct before they will pass so start with on_post. After that it is useful to be able to GET all items available in the table so then you can use those ids for testing the other operations.
+
+Now we should be able to use swagger to interact with the new resource. Add rows to the `DatabaseCartItem` table. Navigate to `localhost:8080` and use the `Post` method in CartItems to add a new row for CartItems (Drop the `id` from json since it is auto generated).
 
 Useful links:
 - https://www.restapitutorial.com/lessons/httpmethods.html

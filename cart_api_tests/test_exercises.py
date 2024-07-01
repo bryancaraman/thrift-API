@@ -1,5 +1,7 @@
 import time
 from .test_heartbeat import TestClient
+from playhouse.postgres_ext import IntegerField
+
 
 PRODUCTS_PATH = "/v1/products"
 PRODUCT_PATH = "/v1/products/{id}"
@@ -15,7 +17,7 @@ class Exercise1(TestClient):
 
     def test_example_data_matches_model(self):
         from cart_api.database import DatabaseCartItem
-
+        isinstance(DatabaseCartItem.quantity,IntegerField)
         DatabaseCartItem(**EXAMPLE_CART_ITEM)
 
 
@@ -32,14 +34,14 @@ class Exercise2(TestClient):
 
         response = self.simulate_post(PRODUCTS_PATH, json=body)
         self.assertEqual(response.status_code, 201)
-        r_json = response.json
 
-        self.assertIsNotNone(r_json)
-        self.assertIsInstance(r_json, dict)
-        new_product_id = r_json["id"]
+        self.assertIsNotNone(response.json)
+        self.assertIsInstance(response.json, dict)
+        new_product_id = response.json["id"]
         self.assertIsInstance(new_product_id, int)
-        del r_json["id"]
-        self.assertEqual(body, r_json)
+        response_minus_id = response.json
+        del response_minus_id["id"]
+        self.assertEqual(body, response_minus_id)
 
         del_response = self.simulate_delete(PRODUCT_PATH.format(id=new_product_id))
         self.assertEqual(del_response.status_code, 204)
@@ -47,7 +49,6 @@ class Exercise2(TestClient):
     def test_get_all_products(self):
         response = self.simulate_get(PRODUCTS_PATH)
         self.assertEqual(response.status_code, 200)
-        r_json = response.json
 
-        self.assertIsNotNone(r_json)
-        self.assertIsInstance(r_json, list)
+        self.assertIsNotNone(response.json)
+        self.assertIsInstance(response.json, list)

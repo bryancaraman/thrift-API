@@ -26,15 +26,14 @@ class Exercise3(TestClient):
         body = EXAMPLE_CART_ITEM
 
         response = self.simulate_post(CARTITEMS_PATH, json=body)
-        r_json = response.json
 
         self.assertEqual(response.status_code, 201)
-        self.assertIsNotNone(r_json)
-        self.assertIsInstance(r_json, dict)
+        self.assertIsNotNone(response.json)
+        self.assertIsInstance(response.json, dict)
 
-        generated_id = r_json["id"]
+        generated_id = response.json["id"]
         self.assertIsInstance(generated_id, int)
-        self.assertEqual(body["name"], r_json["name"])
+        self.assertEqual(body["name"], response.json["name"])
 
         # Delete the new item
         item_uri = CARTITEM_PATH.format(item_id=generated_id)
