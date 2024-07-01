@@ -135,7 +135,7 @@ So now that we know what Falcon is, lets start with going over the project setup
 
 ## Project Structure and Setup
 
-There are four main components to the project setup:
+There are three main components to the project setup:
 
 1. Dockerfile
 2. docker compose.yml
@@ -303,7 +303,7 @@ Once we have our resources and database ready, all's left to do is instantiate o
 We start with creating an instance of the Falcon API and the resource class aka responder in `api.py`
 
 ```python
-api = falcon.API()
+api = falcon.App()
 product = Product()
 ```
 
