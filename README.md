@@ -16,7 +16,7 @@
 > Procedural
 
 1. Please use the bootcamp slack channel to collaborate
-2. During presentation please use slack for questions
+2. During presentation please use slack for coding questions and include your code when relevant
 3. If you need immediate help use the raise hand reaction in Zoom
 4. You may use any resource - google, stack overflow, each other, but we reccomend you start with the documentation
 
@@ -36,9 +36,9 @@ Create a fork of the project
 https://github.com/thoag-godaddy/BootCampCart-API
 ```
 
-Verify that the repository is available your list of your repositories. You should see something like below:
+Verify that the repository is available in your list of your repositories. You should see something like below:
 ```
-<username>-godaddy/BootCampCart-API
+<your username>/BootCampCart-API
 forked from thoag-godaddy/BootCampCart-API
 ```
 
@@ -55,7 +55,7 @@ Setup the IDE environment:
 
 As soon as VSCode opens up, you would get a pop up on the right corner of the screen to set up the project using Remote container. If you don't you may need to install `Remote - Containers` from the extensions on the left side bar. This sets up the python environment for VSCode to use, but for all your docker commands you will want to use your original terminal.
 
-Run the project for the first time. Make sure Docker is running then lets observe everything docker compose is doing
+Make sure Docker is running then run the project for the first time. Lets observe everything docker compose is doing
 ```
 docker compose up --build --force-recreate api
 ```
@@ -147,7 +147,7 @@ In requirements.txt the necessary packages required to build the Falcon API are:
 2. Gunicorn (for the app server)
 3. Psycopg2 (for adding a local Postgres SQL database for the API)
 4. Requests (for HTTP requests)
-5. Swagger (for server a swagger/OpenAPI ui for the API)
+5. Swagger (for serving a swagger/OpenAPI ui for the API)
 6. PyTest (for writing unit test cases for the API)
 7. Coverage (for checking code coverage of the tests for the API)
 
@@ -341,7 +341,7 @@ _(Hint: The falcon request object should contain media data with all the require
 - https://falcon.readthedocs.io/en/stable/api/status.html
 - https://docs.peewee-orm.com/en/latest/peewee/querying.html
 
-hint:  the test will want the appropriate response code to be returned from the POST
+hints:  The test will want the appropriate response code to be returned from the POST. You can use debug print statements the output will show up in the test
 
 Once complete, run docker compose command for test and you should see the Exercise2 tests have now PASSED
 
@@ -366,7 +366,7 @@ Let't try it out.
 > **Exercise 3**: Build the Cart Item resources similar to Product. You should have two resources called `CartItem` and `CartItems` using the `DatabaseCartItem` database Model. (We did one above). The resources should support the following operations.
 >
 > CartItems:
-> 1. Add a new Cart Item row (We already did this above)
+> 1. Add a new Cart Item row (very similar to adding a product)
 > 2. List out all the Cart Item rows
 >
 > CartItem:
