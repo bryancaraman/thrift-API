@@ -21,7 +21,24 @@ class Product:
 
 
 class Products:
-    pass  # must have a pass line because you cannot have a "blank" class
-    # def on_get(self, req, resp):
-
-    # def on_post(self, req, resp):
+    def on_get(self, req, resp):
+        list = []
+        for product in DatabaseProducts.select():
+            list.append(model_to_dict(product))
+        resp.media = list
+        resp.status = falcon.HTTP_200
+        
+    def on_post(self, req, resp):
+        obj = req.get_media()
+        product = DatabaseProducts(
+            name=obj["name"], 
+            description=obj["description"], 
+            image_url=obj["image_url"], 
+            price=obj["price"], 
+            is_on_sale=obj["is_on_sale"], 
+            sale_price=obj["sale_price"]
+        )
+        product.save()
+        resp.media = model_to_dict(product)
+        resp.status = falcon.HTTP_201
+        

@@ -1,8 +1,6 @@
 import falcon
 from playhouse.shortcuts import model_to_dict
-
-# from cart_api.database import DatabaseCartItem
-
+from cart_api.database import DatabaseCartItem
 
 # Exercise 3:
 # Using the database model you created in Exercise 1 create a cartitems route
@@ -12,8 +10,38 @@ from playhouse.shortcuts import model_to_dict
 
 
 class CartItems:
-    pass
+    def on_get(self, req, resp):
+        list = []
+        for product in DatabaseCartItem.select():
+            list.append(model_to_dict(product))
+        resp.media = list
+        resp.status = falcon.HTTP_200
 
+    def on_post(self, req, resp):
+        obj = req.get_media()
+        cart_item = DatabaseCartItem(
+            name=obj["name"], 
+            price=obj["price"], 
+            quantity=obj["quantity"]
+        )
+        cart_item.save()
+        resp.media = model_to_dict(cart_item)
+        resp.status = falcon.HTTP_201
 
 class CartItem:
-    pass
+    def on_get(self, req, resp, cart_item_id):
+        cart_item = DatabaseCartItem.get(id=cart_item_id)
+        resp.media = model_to_dict(cart_item)
+        resp.status = falcon.HTTP_200
+
+    def on_delete(self, req, resp, cart_item_id):
+        DatabaseCartItem.delete_by_id(cart_item_id)
+        resp.status = falcon.HTTP_204
+
+    def on_patch(self, req, resp, cart_item_id):
+        obj = req.get_media()
+        cart_item = DatabaseCartItem.get(id=cart_item_id)
+        cart_item.quantity = obj["quantity"]
+        cart_item.save()
+        resp.status = falcon.HTTP_204
+
