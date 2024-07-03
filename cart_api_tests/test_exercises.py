@@ -5,7 +5,7 @@ from playhouse.postgres_ext import IntegerField
 
 PRODUCTS_PATH = "/v1/products"
 PRODUCT_PATH = "/v1/products/{id}"
-EXAMPLE_CART_ITEM = dict(name="Cool Test Item", price=4.99, quantity=1)
+EXAMPLE_CART_ITEM = dict(name="Cool Test Item", image_url="ajbaiofnao", price=4.99, quantity=1)
 
 
 class Exercise1(TestClient):

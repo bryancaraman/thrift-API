@@ -8,7 +8,7 @@
     ],
     "info": {
         "version": "1.0.0",
-        "title": "Swagger Cart API",
+        "title": "Shopping Cart API",
         "license": {
             "name": "Apache 2.0",
             "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
@@ -19,20 +19,16 @@
             "name": "Store Products"
         }
     ],
-    "externalDocs": {
-        "description": "Find out more about Swagger",
-        "url": "http://swagger.io"
-    },
     "paths": {
         "/products": {
             "post": {
                 "tags": [
                     "product"
                 ],
-                "summary": "Create a new Product",
-                "description": "Create a new Product",
+                "summary": "Create a new product",
+                "description": "Create a new product",
                 "requestBody": {
-                    "description": "New Product data",
+                    "description": "New product data",
                     "content": {
                         "application/json": {
                             "schema": {
@@ -58,8 +54,8 @@
                 "tags": [
                     "product"
                 ],
-                "summary": "Return the list of products in the database",
-                "description": "Return the list of products in the database",
+                "summary": "Return the list of products",
+                "description": "Return the list of products",
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -97,8 +93,8 @@
                 "tags": [
                     "product"
                 ],
-                "summary": "Return a single product from the database",
-                "description": "Return a single product from the database",
+                "summary": "Return a single product",
+                "description": "Return a single product",
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -125,8 +121,8 @@
                 "tags": [
                     "product"
                 ],
-                "summary": "Delete a single product from the database",
-                "description": "Delete a single product from the database",
+                "summary": "Delete a single product",
+                "description": "Delete a single product",
                 "responses": {
                     "204": {
                         "description": "Deleted successfully"
@@ -148,8 +144,8 @@
                 "tags": [
                     "CartItem"
                 ],
-                "summary": "Return the list of CartItems in the database",
-                "description": "Return the list of CartItems in the database",
+                "summary": "Return all items in the cart",
+                "description": "Return all items in the cart",
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -173,8 +169,8 @@
                 "tags": [
                     "CartItem"
                 ],
-                "summary": "Create a new CartItem",
-                "description": "Create a new CartItem",
+                "summary": "Create a new cart item",
+                "description": "Create a new cart item",
                 "requestBody": {
                     "description": "New CartItem data",
                     "content": {
@@ -216,8 +212,8 @@
                 "tags": [
                     "CartItem"
                 ],
-                "summary": "Return a single CartItem from the database",
-                "description": "Return a single CartItem from the database",
+                "summary": "Return a single item from the cart",
+                "description": "Return a single item from the cart",
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -244,8 +240,8 @@
                 "tags": [
                     "CartItem"
                 ],
-                "summary": "Delete a single CartItem from the database",
-                "description": "Delete a single CartItem from the database",
+                "summary": "Delete a single item from the cart",
+                "description": "Delete a single item from the cart",
                 "responses": {
                     "204": {
                         "description": "Deleted successfully"
@@ -265,8 +261,8 @@
                 "tags": [
                     "CartItem"
                 ],
-                "summary": "Update a CartItem",
-                "description": "Update a CartItem",
+                "summary": "Update the quantity of an item in the cart",
+                "description": "Update the quantity of an item in the cart",
                 "requestBody": {
                     "description": "CartItem changes",
                     "content": {
@@ -301,6 +297,9 @@
                         "format": "int64"
                     },
                     "name": {
+                        "type": "string"
+                    },
+                    "image_url": {
                         "type": "string"
                     },
                     "price": {

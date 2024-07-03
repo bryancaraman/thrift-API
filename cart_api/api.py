@@ -1,5 +1,3 @@
-__author__ = "Andrew Williamson <axwilliamson@godaddy.com>"
-
 import falcon
 from swagger_ui import falcon_api_doc
 from cart_api.routes.heartbeat import Heartbeat
@@ -25,7 +23,7 @@ api.add_route("/v1/cartitems/{cart_item_id:int}", cart_item)
 
 # Add a route which serves our OpenAPI specification
 falcon_api_doc(
-    api, config_path="/swagger/api.json", url_prefix="/", title="Cart API", editor=True
+    api, config_path="/swagger/api.json", url_prefix="/", title="Shopping Cart API", editor=True
 )
 
 

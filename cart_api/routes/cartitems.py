@@ -19,8 +19,10 @@ class CartItems:
 
     def on_post(self, req, resp):
         obj = req.get_media()
+        print(obj)
         cart_item = DatabaseCartItem(
-            name=obj["name"], 
+            name=obj["name"],
+            image_url=obj["image_url"],
             price=obj["price"], 
             quantity=obj["quantity"]
         )
@@ -41,7 +43,8 @@ class CartItem:
     def on_patch(self, req, resp, cart_item_id):
         obj = req.get_media()
         cart_item = DatabaseCartItem.get(id=cart_item_id)
-        cart_item.quantity = obj["quantity"]
-        cart_item.save()
+        if "quantity" in obj:
+            cart_item.quantity = obj["quantity"]
+            cart_item.save()
         resp.status = falcon.HTTP_204
 

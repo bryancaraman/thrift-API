@@ -1,5 +1,3 @@
-__author__ = "Andrew Williamson <axwilliamson@godaddy.com>"
-
 import inspect
 import os
 import sys
@@ -91,6 +89,7 @@ class DatabaseProducts(BaseModel):
 class DatabaseCartItem(BaseModel):
     id = AutoField(primary_key=True)
     name = CharField(null=True)
+    image_url = CharField(null=True)
     price = DoubleField()
     quantity = IntegerField()
 
