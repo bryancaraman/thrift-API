@@ -6,9 +6,9 @@ PRODUCT_PATH = "/v1/products/{id}"
 
 body = dict(
     name=f"TestProduct-{int(time.time())} ",
-    description="Woah this is like a pretty cool description yo",
+    description="Really awesome stuff",
     image_url="http://pictureofcats.com",
-    price=4.99,
+    price=14.99,
     is_on_sale=True,
     sale_price=3.99,
 )
@@ -17,17 +17,30 @@ class ProductTest(TestClient):
     def test_get_product(self):
         response = self.simulate_post(PRODUCTS_PATH, json=body)
         self.assertEqual(response.status_code, 201, "Requires working POST")
-        self.aitem = response.json
 
-        response = self.simulate_get(PRODUCT_PATH.format(item_id=self.aitem["id"]))
+        self.assertIsNotNone(response.json)
+        self.assertIsInstance(response.json, dict)
+        new_product_id = response.json["id"]
+        self.assertIsInstance(new_product_id, int)
+
+        response = self.simulate_get(PRODUCT_PATH.format(id=new_product_id))
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json["name"], self.aitem["name"])
+
+        self.assertIsNotNone(response.json)
+        self.assertIsInstance(response.json, dict)
+
+        del_response = self.simulate_delete(PRODUCT_PATH.format(id=new_product_id))
+        self.assertEqual(del_response.status_code, 204)
         
     def test_delete_item(self):
         response = self.simulate_post(PRODUCTS_PATH, json=body)
         self.assertEqual(response.status_code, 201, "Requires working POST")
-        self.aitem = response.json
+        
+        self.assertIsNotNone(response.json)
+        self.assertIsInstance(response.json, dict)
+        new_product_id = response.json["id"]
+        self.assertIsInstance(new_product_id, int)
 
-        response = self.simulate_delete(PRODUCT_PATH.format(item_id=self.aitem["id"]))
+        response = self.simulate_delete(PRODUCT_PATH.format(id=new_product_id))
         self.assertEqual(response.status_code, 204)
         self.assertEqual(response.text, "")

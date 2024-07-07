@@ -19,7 +19,6 @@ class CartItems:
 
     def on_post(self, req, resp):
         obj = req.get_media()
-        print(obj)
         cart_item = DatabaseCartItem(
             name=obj["name"],
             image_url=obj["image_url"],
