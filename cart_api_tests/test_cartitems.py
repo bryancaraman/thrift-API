@@ -22,6 +22,11 @@ class Exercise3(TestClient):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json["name"], self.aitem["name"])
 
+        # Delete the test product
+        item_uri = CARTITEM_PATH.format(item_id=self.aitem["id"])
+        del_response = self.simulate_delete(item_uri)
+        self.assertEqual(del_response.status_code, 204)
+
     def test_post_cartitems(self):
         body = EXAMPLE_CART_ITEM
 
@@ -35,9 +40,10 @@ class Exercise3(TestClient):
         self.assertIsInstance(generated_id, int)
         self.assertEqual(body["name"], response.json["name"])
 
-        # Delete the new item
+        # Delete the test product
         item_uri = CARTITEM_PATH.format(item_id=generated_id)
-        self.simulate_delete(item_uri)
+        del_response = self.simulate_delete(item_uri)
+        self.assertEqual(del_response.status_code, 204)
 
     def test_delete_item(self):
         body = EXAMPLE_CART_ITEM
@@ -66,3 +72,8 @@ class Exercise3(TestClient):
         response = self.simulate_get(CARTITEM_PATH.format(item_id=self.aitem["id"]))
         self.assertEqual(response.status_code, 200, "Requires working GET")
         self.assertEqual(response.json["quantity"], 5)
+
+        # Delete the test product
+        item_uri = CARTITEM_PATH.format(item_id=self.aitem["id"])
+        del_response = self.simulate_delete(item_uri)
+        self.assertEqual(del_response.status_code, 204)

@@ -47,13 +47,8 @@ class Exercise2(TestClient):
         del response_minus_id["id"]
         self.assertEqual(body, response_minus_id)
 
-        # Retrieve the posted product details
-        get_response = self.simulate_get(PRODUCT_PATH.format(id=new_product_id))
-        self.assertEqual(get_response.status_code, 200)
-        posted_product = json.loads(get_response.content)
-
         # Test the posting of a duplicate product
-        response_duplicate = self.simulate_post(PRODUCTS_PATH, json=posted_product)
+        response_duplicate = self.simulate_post(PRODUCTS_PATH, json=response.json)
         self.assertEqual(response_duplicate.status_code, 400)
         self.assertEqual(response_duplicate.json["message"], "Product already in database")
 
