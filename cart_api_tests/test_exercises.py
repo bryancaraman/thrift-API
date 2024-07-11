@@ -1,4 +1,5 @@
 import time
+import json
 from .test_heartbeat import TestClient
 from playhouse.postgres_ext import IntegerField
 
@@ -23,6 +24,7 @@ class Exercise1(TestClient):
 
 class Exercise2(TestClient):
     def test_post_products(self):
+        # Dummy product data
         body = dict(
             name=f"TestProduct-{int(time.time())} ",
             description="Woah this is like a pretty cool description yo",
@@ -32,9 +34,11 @@ class Exercise2(TestClient):
             sale_price=3.99,
         )
 
+        # Post the product
         response = self.simulate_post(PRODUCTS_PATH, json=body)
         self.assertEqual(response.status_code, 201)
-
+        
+        # Test that the posted product is accurate
         self.assertIsNotNone(response.json)
         self.assertIsInstance(response.json, dict)
         new_product_id = response.json["id"]
@@ -43,6 +47,17 @@ class Exercise2(TestClient):
         del response_minus_id["id"]
         self.assertEqual(body, response_minus_id)
 
+        # Retrieve the posted product details
+        get_response = self.simulate_get(PRODUCT_PATH.format(id=new_product_id))
+        self.assertEqual(get_response.status_code, 200)
+        posted_product = json.loads(get_response.content)
+
+        # Test the posting of a duplicate product
+        response_duplicate = self.simulate_post(PRODUCTS_PATH, json=posted_product)
+        self.assertEqual(response_duplicate.status_code, 400)
+        self.assertEqual(response_duplicate.json["message"], "Product already in database")
+
+        # Clean up and delete posted product
         del_response = self.simulate_delete(PRODUCT_PATH.format(id=new_product_id))
         self.assertEqual(del_response.status_code, 204)
 

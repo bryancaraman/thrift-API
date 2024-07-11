@@ -30,6 +30,11 @@ class Products:
         
     def on_post(self, req, resp):
         obj = req.get_media()
+        for product in DatabaseProducts.select():
+            if (obj["name"] == product.name):
+                resp.media = {"message": "Product already in database"}
+                resp.status = falcon.HTTP_400
+                return
         product = DatabaseProducts(
             name=obj["name"], 
             description=obj["description"], 
