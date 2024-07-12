@@ -1,5 +1,4 @@
 import time
-import json
 from .test_heartbeat import TestClient
 from playhouse.postgres_ext import IntegerField
 
@@ -27,9 +26,13 @@ class Exercise2(TestClient):
         # Dummy product data
         body = dict(
             name=f"TestProduct-{int(time.time())} ",
-            description="Woah this is like a pretty cool description yo",
+            description="Really awesome stuff",
+            size="Large",
+            color="Blue",
+            condition="Used",
+            material="Cotton",
             image_url="http://pictureofcats.com",
-            price=4.99,
+            price=14.99,
             is_on_sale=True,
             sale_price=3.99,
         )

@@ -14,11 +14,6 @@
             "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         }
     },
-    "tags": [
-        {
-            "name": "Store Products"
-        }
-    ],
     "paths": {
         "/products": {
             "post": {
@@ -148,7 +143,7 @@
         "/cartitems": {
             "get": {
                 "tags": [
-                    "CartItem"
+                    "cartitem"
                 ],
                 "summary": "Return all items in the cart",
                 "description": "Return all items in the cart",
@@ -173,7 +168,7 @@
             },
             "post": {
                 "tags": [
-                    "CartItem"
+                    "cartitem"
                 ],
                 "summary": "Create a new cart item",
                 "description": "Create a new cart item",
@@ -197,6 +192,12 @@
                                 }
                             }
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
                     }
                 }
             }
@@ -216,7 +217,7 @@
             ],
             "get": {
                 "tags": [
-                    "CartItem"
+                    "cartitem"
                 ],
                 "summary": "Return a single item from the cart",
                 "description": "Return a single item from the cart",
@@ -244,7 +245,7 @@
             },
             "delete": {
                 "tags": [
-                    "CartItem"
+                    "cartitem"
                 ],
                 "summary": "Delete a single item from the cart",
                 "description": "Delete a single item from the cart",
@@ -265,7 +266,7 @@
             },
             "patch": {
                 "tags": [
-                    "CartItem"
+                    "cartitem"
                 ],
                 "summary": "Update the quantity of an item in the cart",
                 "description": "Update the quantity of an item in the cart",
@@ -288,6 +289,131 @@
                 "responses": {
                     "204": {
                         "description": "successful create"
+                    }
+                }
+            }
+        },
+        "/sellitems": {
+            "post": {
+                "tags": [
+                    "sellitem"
+                ],
+                "summary": "Create a new product to sell",
+                "description": "Create a new product to sell",
+                "requestBody": {
+                    "description": "New product data",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Product"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "successful create",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "sellitem"
+                ],
+                "summary": "Return the list of products being sold",
+                "description": "Return the list of products being sold",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Product"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/sellitems/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "description": "ID of the SellItem",
+                    "required": true,
+                    "schema": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            ],
+            "get": {
+                "tags": [
+                    "sellitem"
+                ],
+                "summary": "Return a single product for sale",
+                "description": "Return a single product for sale",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "SellItem not found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "sellitem"
+                ],
+                "summary": "Delete a single product for sale",
+                "description": "Delete a single product for sale",
+                "responses": {
+                    "204": {
+                        "description": "Deleted successfully"
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "SellItem not found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
                     }
                 }
             }
@@ -329,6 +455,18 @@
                         "type": "string"
                     },
                     "description": {
+                        "type": "string"
+                    },
+                    "size": {
+                        "type": "string"
+                    },
+                    "color": {
+                        "type": "string"
+                    },
+                    "condition": {
+                        "type": "string"
+                    },
+                    "material": {
                         "type": "string"
                     },
                     "image_url": {

@@ -12,8 +12,8 @@ from cart_api.database import DatabaseCartItem
 class CartItems:
     def on_get(self, req, resp):
         list = []
-        for product in DatabaseCartItem.select():
-            list.append(model_to_dict(product))
+        for cart_item in DatabaseCartItem.select():
+            list.append(model_to_dict(cart_item))
         resp.media = list
         resp.status = falcon.HTTP_200
 

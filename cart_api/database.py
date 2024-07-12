@@ -32,6 +32,10 @@ class DatabaseProducts(BaseModel):
     id = AutoField(primary_key=True)
     name = CharField()
     description = CharField(null=True)
+    size = CharField(null=True)
+    color = CharField(null=True)
+    condition = CharField(null=True)
+    material = CharField(null=True)
     image_url = CharField(null=True)
     price = DoubleField()
     is_on_sale = BooleanField(default=False)
@@ -42,47 +46,67 @@ class DatabaseProducts(BaseModel):
         products = [
             DatabaseProducts(
                 id=1,
-                name="Standard SSL",
-                description="Your standard SSL certificate",
+                name="Sundress",
+                description="Red sundress for the summer",
+                size="Small",
+                color="Red",
+                condition="Used",
+                material="Cotton",
                 price=14.99,
                 is_on_sale=False,
                 sale_price=8.99,
             ),
             DatabaseProducts(
                 id=2,
-                name="Wildcard SSL",
-                description="Encrypt any subdomains may exist on the site",
-                price=29.99,
+                name="Graphic T-Shirt",
+                description="Graphic T-Shirt with a picture of Master Chief",
+                size="Large",
+                color="Green",
+                condition="Used",
+                material="Cotton",
+                price=8.99,
                 is_on_sale=True,
-                sale_price=19.99,
+                sale_price=5.99,
             ),
             DatabaseProducts(
                 id=3,
-                name="Domain - .com",
-                description="Purchase a .com domain",
-                price=9.99,
+                name="Sweater",
+                description="Wool sweater for the winter",
+                size="Medium",
+                color="Blue",
+                condition="Used",
+                material="Wool",
+                price=19.99,
                 is_on_sale=False,
             ),
             DatabaseProducts(
                 id=4,
-                name="Domain - .org",
-                description="Purchase a .org domain",
-                price=8.99,
+                name="Sweatpants",
+                description="Light blue cotton sweatpants",
+                size="Large",
+                color="Blue",
+                condition="New",
+                material="Cotton",
+                price=11.99,
                 is_on_sale=False,
             ),
             DatabaseProducts(
                 id=5,
-                name="Domain - .co",
-                description="Purchase a .co domain",
-                price=8.99,
+                name="Leather jacket",
+                description="Blue leather jacket",
+                size="Small",
+                color="Blue",
+                condition="Used",
+                material="Leather",
+                price=18.99,
                 is_on_sale=True,
-                sale_price=4.99,
+                sale_price=14.99,
             ),
         ]
         DatabaseProducts.bulk_create(products)
 
 
-# Excercise 1:
+# Exercise 1:
 # Define an ORM class called DatabaseCartItem which inherits from BaseModel
 # and has the properties and types defined by your swagger spec.
 # if neccesary, update EXAMPLE_CART_ITEM in cart_api_tests/test_exercises.py to match
@@ -92,6 +116,19 @@ class DatabaseCartItem(BaseModel):
     image_url = CharField(null=True)
     price = DoubleField()
     quantity = IntegerField()
+
+class DatabaseSellItems(BaseModel):
+    id = AutoField(primary_key=True)
+    name = CharField()
+    description = CharField(null=True)
+    size = CharField(null=True)
+    color = CharField(null=True)
+    condition = CharField(null=True)
+    material = CharField(null=True)
+    image_url = CharField(null=True)
+    price = DoubleField()
+    is_on_sale = BooleanField(default=False)
+    sale_price = DoubleField(null=True)
 
 # BOOTCAMPERS: Don't modify anything below
 ALL_MODELS = [

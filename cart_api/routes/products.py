@@ -38,6 +38,10 @@ class Products:
         product = DatabaseProducts(
             name=obj["name"], 
             description=obj["description"], 
+            size=obj["size"], 
+            color=obj["color"], 
+            condition=obj["condition"], 
+            material=obj["material"], 
             image_url=obj["image_url"], 
             price=obj["price"], 
             is_on_sale=obj["is_on_sale"], 
