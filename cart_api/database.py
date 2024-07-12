@@ -212,6 +212,12 @@ def init_tables(table_models=None):  # pragma: nocover
         if DatabaseProducts in table_models:
             print(f"✅ Populating table: {DatabaseProducts.__name__}")
             DatabaseProducts.prepopulate()
+        if DatabaseCartItem in table_models:
+            print(f"✅ Populating table: {DatabaseCartItem.__name__}")
+            DatabaseCartItem.prepopulate()
+        if DatabaseSellItems in table_models:
+            print(f"✅ Populating table: {DatabaseSellItems.__name__}")
+            DatabaseSellItems.prepopulate()
 
 
 # Create any tables that don't exist
