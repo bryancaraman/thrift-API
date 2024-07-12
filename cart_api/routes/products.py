@@ -1,13 +1,19 @@
 import falcon
 from playhouse.shortcuts import model_to_dict
 from cart_api.database import DatabaseProducts
-
+from peewee import DoesNotExist
 
 class Product:
     def on_get(self, req, resp, product_id):
-        product = DatabaseProducts.get(id=product_id)
-        resp.media = model_to_dict(product)
-        resp.status = falcon.HTTP_200
+        try:
+            product = DatabaseProducts.get(id=product_id)
+            resp.media = model_to_dict(product)
+            resp.status = falcon.HTTP_200
+        except DoesNotExist:
+            resp.status = falcon.HTTP_404
+            resp.media = {
+                "message": "404_NOT_FOUND"
+            }
 
     def on_delete(self, req, resp, product_id):
         DatabaseProducts.delete_by_id(product_id)

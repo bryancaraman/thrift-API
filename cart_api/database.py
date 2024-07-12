@@ -52,6 +52,7 @@ class DatabaseProducts(BaseModel):
                 color="Red",
                 condition="Used",
                 material="Cotton",
+                image_url="",
                 price=14.99,
                 is_on_sale=False,
                 sale_price=8.99,
@@ -64,6 +65,7 @@ class DatabaseProducts(BaseModel):
                 color="Green",
                 condition="Used",
                 material="Cotton",
+                image_url="",
                 price=8.99,
                 is_on_sale=True,
                 sale_price=5.99,
@@ -76,6 +78,7 @@ class DatabaseProducts(BaseModel):
                 color="Blue",
                 condition="Used",
                 material="Wool",
+                image_url="",
                 price=19.99,
                 is_on_sale=False,
             ),
@@ -87,6 +90,7 @@ class DatabaseProducts(BaseModel):
                 color="Blue",
                 condition="New",
                 material="Cotton",
+                image_url="",
                 price=11.99,
                 is_on_sale=False,
             ),
@@ -98,6 +102,7 @@ class DatabaseProducts(BaseModel):
                 color="Blue",
                 condition="Used",
                 material="Leather",
+                image_url="",
                 price=18.99,
                 is_on_sale=True,
                 sale_price=14.99,
@@ -117,6 +122,28 @@ class DatabaseCartItem(BaseModel):
     price = DoubleField()
     quantity = IntegerField()
 
+    @classmethod
+    def prepopulate(cls):  # pragma: nocover
+        cart_items = [
+            DatabaseCartItem(
+                id=1,
+                name="Sundress",
+                description="Red sundress for the summer",
+                image_url="",
+                price=14.99,
+                quantity=1
+            ),
+            DatabaseCartItem(
+                id=2,
+                name="Graphic T-Shirt",
+                description="Graphic T-Shirt with a picture of Master Chief",
+                image_url="",
+                price=5.99,
+                quantity=1
+            ),
+        ]
+        DatabaseCartItem.bulk_create(cart_items)
+
 class DatabaseSellItems(BaseModel):
     id = AutoField(primary_key=True)
     name = CharField()
@@ -129,6 +156,37 @@ class DatabaseSellItems(BaseModel):
     price = DoubleField()
     is_on_sale = BooleanField(default=False)
     sale_price = DoubleField(null=True)
+
+    @classmethod
+    def prepopulate(cls):  # pragma: nocover
+        sell_items = [
+            DatabaseProducts(
+                id=4,
+                name="Sweatpants",
+                description="Light blue cotton sweatpants",
+                size="Large",
+                color="Blue",
+                condition="New",
+                material="Cotton",
+                image_url="",
+                price=11.99,
+                is_on_sale=False,
+            ),
+            DatabaseProducts(
+                id=5,
+                name="Leather jacket",
+                description="Blue leather jacket",
+                size="Small",
+                color="Blue",
+                condition="Used",
+                material="Leather",
+                image_url="",
+                price=18.99,
+                is_on_sale=True,
+                sale_price=14.99,
+            ),
+        ]
+        DatabaseSellItems.bulk_create(sell_items)
 
 # BOOTCAMPERS: Don't modify anything below
 ALL_MODELS = [

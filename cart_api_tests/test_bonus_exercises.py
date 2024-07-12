@@ -27,6 +27,7 @@ class ProductTest(TestClient):
         new_product_id = response.json["id"]
         self.assertIsInstance(new_product_id, int)
 
+        # Test getting posted product
         response = self.simulate_get(PRODUCT_PATH.format(id=new_product_id))
         self.assertEqual(response.status_code, 200)
 
@@ -35,6 +36,11 @@ class ProductTest(TestClient):
 
         del_response = self.simulate_delete(PRODUCT_PATH.format(id=new_product_id))
         self.assertEqual(del_response.status_code, 204)
+    
+    def test_get_non_existing_product(self):
+        response = self.simulate_get(PRODUCT_PATH.format(id=9999999))
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.json["message"], "404_NOT_FOUND")
         
     def test_delete_product(self):
         response = self.simulate_post(PRODUCTS_PATH, json=body)

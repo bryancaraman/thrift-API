@@ -58,6 +58,7 @@ class SellItemsTest(TestClient):
         new_sell_item_id = response.json["id"]
         self.assertIsInstance(new_sell_item_id, int)
 
+        # Test getting posted sellitem
         response = self.simulate_get(SELLITEM_PATH.format(id=new_sell_item_id))
         self.assertEqual(response.status_code, 200)
 
@@ -66,6 +67,11 @@ class SellItemsTest(TestClient):
 
         del_response = self.simulate_delete(SELLITEM_PATH.format(id=new_sell_item_id))
         self.assertEqual(del_response.status_code, 204)
+
+    def test_get_non_existing_sellitem(self):
+        response = self.simulate_get(SELLITEM_PATH.format(id=9999999))
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.json["message"], "404_NOT_FOUND")
         
     def test_delete_sellitem(self):
         response = self.simulate_post(SELLITEMS_PATH, json=body)
