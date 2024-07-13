@@ -84,3 +84,16 @@ services:
         condition: service_healthy
     networks:
       - bootcamp
+
+  web:
+    restart: always 
+    build: ../bootcamp-shopping-cart
+    ports:
+     - "8080:8080"
+    environment:
+      - REACT_APP_API_URL=http://api:8000
+    depends_on:
+      api:
+        condition: service_healthy
+    networks:
+     - bootcamp
